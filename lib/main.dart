@@ -106,17 +106,18 @@ class _WeatherScreenState extends State<WeatherScreen> {
             content: Text(errorMessage!),
             actions: [
               CupertinoDialogAction(
-                child: const Text("Cancel",
-                    style: TextStyle(color: CupertinoColors.destructiveRed)),
+                child: const Text("Please Try Again",
+                    style: TextStyle(color: CupertinoColors.systemGreen)),
                 onPressed: () {
                   Navigator.of(context).pop();
                   setState(() => showErrorDialog = false);
+                  fetchWeather();
                 },
               ),
               // Show Retry ONLY for No internet connection
               if (errorMessage == "No internet connection")
                 CupertinoDialogAction(
-                  child: const Text("Retry",
+                  child: const Text("Please Try Again",
                       style: TextStyle(color: CupertinoColors.systemGreen)),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -231,7 +232,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         middle: Text("iWeather", style: TextStyle(color: textColor)),
         trailing: CupertinoButton(
           padding: EdgeInsets.zero,
-          child: Icon(CupertinoIcons.settings, color: textColor, size: 24),
+          child: Icon(CupertinoIcons.gear, color: textColor, size: 24),
           onPressed: _navigateToSettings,
         ),
       ),

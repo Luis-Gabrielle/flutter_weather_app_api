@@ -55,54 +55,141 @@ class _SettingsPageState extends State<SettingsPage> {
         middle: Text("Settings", style: TextStyle(color: textColor)),
         backgroundColor: backgroundColor,
       ),
-      child: ListView(
-        children: [
-          _buildSettingsTile(
-            icon: CupertinoIcons.location_solid,
-            title: "Location",
-            trailing: Text(settings.location,
-                style: TextStyle(color: secondaryTextColor)),
-            onTap: () => _showLocationDialog(context, settings),
-          ),
-          _buildSettingsTile(
-            icon: CupertinoIcons.paintbrush,
-            title: "Icon Color",
-            trailing: Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                color: settings.iconColor,
-                shape: BoxShape.circle,
-              ),
+
+      child: Container(
+         // Set background color for ListView
+        margin: EdgeInsets.all(5),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: settings.lightMode ? CupertinoColors.extraLightBackgroundGray : CupertinoColors.darkBackgroundGray,// Set background color for Container
+          borderRadius: BorderRadius.circular(15), // Set border radius for Container
+        ),
+        child: ListView(
+          children: [
+            Column(
+              children: [
+                _buildSettingsTile(
+                  icon: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.orange, // Background color for Location icon
+                      borderRadius: BorderRadius.circular(5), // Border radius
+                    ),
+                    child: Icon(CupertinoIcons.location_fill, color: Colors.white),
+                  ),
+                  title: "Location",
+                  trailing: Text(settings.location,
+                      style: TextStyle(color: secondaryTextColor)),
+                  onTap: () => _showLocationDialog(context, settings),
+                ),
+                Container(
+                  height: 1,
+                  color: CupertinoColors.tertiaryLabel,
+                ),
+              ],
             ),
-            onTap: () => _showColorPicker(context, settings),
-          ),
-          _buildToggleTile(
-            icon: CupertinoIcons.speedometer,
-            title: "Metric System",
-            value: settings.metricSystem,
-            onChanged: (value) => settings.toggleMetricSystem(value),
-          ),
-          _buildToggleTile(
-            icon: CupertinoIcons.sun_max_fill,
-            title: "Light Mode",
-            value: settings.lightMode,
-            onChanged: (value) => settings.toggleLightMode(value),
-          ),
-          _buildSettingsTile(
-            icon: CupertinoIcons.info_circle_fill,
-            title: "About",
-            trailing: Text("Version: 1.0",
-                style: TextStyle(color: secondaryTextColor)),
-            onTap: () => _showAboutDialog(context, settings),
-          ),
-        ],
+            Column(
+              children: [
+                _buildSettingsTile(
+                  icon: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.red, // Background color for Icon Color icon
+                      borderRadius: BorderRadius.circular(5), // Border radius
+                    ),
+                    child: Icon(CupertinoIcons.color_filter, color: Colors.white),
+                  ),
+                  title: "Icon Color",
+                  trailing: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: settings.iconColor,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  onTap: () => _showColorPicker(context, settings),
+                ),
+                Container(
+                  height: 1,
+                  color: CupertinoColors.tertiaryLabel,
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                _buildToggleTile(
+                  icon: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.green, // Background color for Metric System icon
+                      borderRadius: BorderRadius.circular(5), // Border radius
+                    ),
+                    child: Icon(CupertinoIcons.gauge, color: Colors.white),
+                  ),
+                  title: "Metric System",
+                  value: settings.metricSystem,
+                  onChanged: (value) => settings.toggleMetricSystem(value),
+                ),
+                Container(
+                  height: 1,
+                  color: CupertinoColors.tertiaryLabel,
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                _buildToggleTile(
+                  icon: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.yellow, // Background color for Light Mode icon
+                      borderRadius: BorderRadius.circular(5), // Border radius
+                    ),
+                    child: Icon(CupertinoIcons.light_max, color: Colors.white),
+                  ),
+                  title: "Light Mode",
+                  value: settings.lightMode,
+                  onChanged: (value) => settings.toggleLightMode(value),
+                ),
+                Container(
+                  height: 1,
+                  color: CupertinoColors.tertiaryLabel,
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                _buildSettingsTile(
+                  icon: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.blue, // Background color for About icon
+                      borderRadius: BorderRadius.circular(5), // Border radius
+                    ),
+                    child: Icon(CupertinoIcons.info_circle, color: Colors.white),
+                  ),
+                  title: "About",
+                  trailing: Text("Version: 1.0",
+                      style: TextStyle(color: secondaryTextColor)),
+                  onTap: () => _showAboutDialog(context, settings),
+                ),
+                Container(
+                  height: 1,
+                  color: CupertinoColors.tertiaryLabel,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
+
+
     );
   }
 
   Widget _buildSettingsTile({
-    required IconData icon,
+    required Widget icon,
     required String title,
     required Widget trailing,
     required VoidCallback onTap,
@@ -111,7 +198,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final textColor = settings.lightMode ? CupertinoColors.black : CupertinoColors.white;
 
     return CupertinoListTile(
-      leading: Icon(icon, color: settings.iconColor),
+      leading: icon, // Pass the icon directly here
       title: Text(title, style: TextStyle(color: textColor)),
       trailing: trailing,
       onTap: onTap,
@@ -119,7 +206,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildToggleTile({
-    required IconData icon,
+    required Widget icon,
     required String title,
     required bool value,
     required ValueChanged<bool> onChanged,
@@ -128,12 +215,13 @@ class _SettingsPageState extends State<SettingsPage> {
     final textColor = settings.lightMode ? CupertinoColors.black : CupertinoColors.white;
 
     return CupertinoListTile(
-      leading: Icon(icon, color: settings.iconColor),
+      leading: icon,
       title: Text(title, style: TextStyle(color: textColor)),
       trailing: CupertinoSwitch(
         value: value,
         onChanged: onChanged,
       ),
+
     );
   }
 
